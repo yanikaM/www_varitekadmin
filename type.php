@@ -1,0 +1,82 @@
+<?php
+include('connect/conn.php');
+$query_type = "SELECT * FROM `products_types` ORDER BY Types_ID ASC " or die
+("Error : ".mysqlierror($query_type));
+$rs_type = mysqli_query($con, $query_type);
+//echo ($query_level);//test query
+?>
+
+	<link rel="stylesheet" type="text/css" href="http://dev_inno.asefa.co.th/cdn/datatable/css/dataTables.bootstrap4.min.css">
+	<script src="http://dev_inno.asefa.co.th/cdn/jquery-3.4.1.min.js"></script>
+	<script src="http://dev_inno.asefa.co.th/cdn/datatable/js/jquery.dataTables.min.js"></script>
+	<script src="http://dev_inno.asefa.co.th/cdn/datatable/js/dataTables.bootstrap4.min.js"></script>
+
+
+
+<script>
+		$(document).ready(function() {
+	    	$('#example').DataTable();
+		} );
+	</script>
+ <!-- Content Header (Page header) -->
+ <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+          <a href="?type-add" ><button type="button" class="btn btn-success"><i class="fa fa-plus"></i> เพิ่มหมวดหมู่สินค้า</button></a> 
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+              <li class="breadcrumb-item active">types</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">รายการหมวดหมู่สินค้า</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+        <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>ลำดับ</th>
+                <th>ชื่อหมวดหมู่สินค้า</th>
+                <th>ดำเนินการ</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+          <?php 
+          $i=1;
+          foreach ($rs_type as $row_cate) { ?>
+
+            <tr>
+                <td><?php echo $i; ?></td>
+                <td><?php echo $row_cate['Types_Name']; ?></td>
+                <td>
+                  <a class="btn btn-info btn-sm" href="?type-edit&edit=1&type_ID=<?php echo $row_cate['Types_ID']; ?> "><i class="fas fa-pencil-alt"></i> Edit</a>
+                  <a class="btn btn-danger btn-sm" href="delete.php?type_ID=<?php echo $row_cate['Types_ID']; ?> " onclick="return confirm('กรุณากดยืนยัน เพื่อลบหมวดหมู่สินค้า')"><i class="fas fa-trash"></i> Delete</a>
+                </td>
+                
+            </tr>
+        <?php $i++;  }?>
+        </tbody>
+        
+    </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </section>
+    <!-- /.content -->
+  </div>
+ 
+
